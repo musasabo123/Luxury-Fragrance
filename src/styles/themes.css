@@ -149,7 +149,7 @@
 /* Buttons and accents that use specific hex in classes */
 .light .text-\[\#080808\] { color: var(--primary-foreground) !important; }
 .light .bg-\[\#C9A84C\] { background-color: var(--color-accent) !important; }
-.light .hover\:bg-\[\#D4B05A\]:hover { background-color: #755f2c !important; }
+.light .hover\:bg-\[\#D4B05A\]:hover { background-color: #D4B05A !important; }
 
 
 @theme inline {
@@ -200,22 +200,6 @@
 
   body {
     @apply bg-background text-foreground;
-  }
-
-  a,
-  a:link,
-  a:visited {
-    color: var(--color-foreground);
-    text-decoration: none;
-    transition: color .2s ease, text-decoration-color .2s ease;
-  }
-
-  a:hover,
-  a:focus-visible {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-decoration-color: var(--color-accent);
-    outline: none;
   }
 
   /**

@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { Sun, Moon } from "lucide-react";
 import { motion } from "motion/react";
+import { ThemeProvider, useTheme } from "./ThemeContext";
 
 const MotionLink = motion(Link);
 const MotionAnchor = motion.a;
@@ -112,28 +113,7 @@ function GoldDivider() {
 function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  const [theme, setTheme] = useState(() => {
-    try {
-      const saved = localStorage.getItem('theme');
-      if (saved) return saved;
-      return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    } catch (e) {
-      return 'dark';
-    }
-  });
-
-  // apply theme to document
-  useEffect(() => {
-    const root = document.documentElement;
-    if (theme === 'light') {
-      root.classList.add('light');
-      root.classList.remove('dark');
-    } else {
-      root.classList.remove('light');
-      root.classList.add('dark');
-    }
-    try { localStorage.setItem('theme', theme); } catch (e) {}
-  }, [theme]);
+  const { theme, toggleTheme } = useTheme();
   const links = [
     { label: "Home", to: "/" }, { label: "Explore", to: "/explore" },
     { label: "Brands", to: "/brands" }, { label: "Collections", to: "/collections" },
@@ -146,7 +126,7 @@ function Navbar() {
         {/* Logo */}
         <Link
           to="/"
-          className="font-display text-xl tracking-[0.12em] text-[#F0EBE0] flex items-center gap-2.5 flex-shrink-0"
+          className="font-display text-xl tracking-[0.12em] text-[var(--color-foreground)] flex items-center gap-2.5 flex-shrink-0"
         >
           <span className="text-[#C9A84C] text-base">✦</span>
           ScentBase
@@ -163,7 +143,7 @@ function Navbar() {
               className={`px-4 py-2 text-sm rounded-full transition-colors transition-shadow ${
                 location.pathname === link.to
                   ? "text-[#C9A84C] bg-[#C9A84C]/8 shadow-[0_8px_24px_rgba(201,168,76,0.16)]"
-                  : "text-[#F0EBE0]/55 hover:text-[#F0EBE0] hover:bg-white/5 hover:shadow-[0_8px_24px_rgba(201,168,76,0.12)]"
+                  : "text-[var(--color-muted-foreground)] hover:text-[#C9A84C] hover:bg-[var(--color-secondary)] hover:shadow-[0_8px_24px_rgba(201,168,76,0.12)]"
               }`}
             >
               {link.label}
@@ -176,9 +156,9 @@ function Navbar() {
           to="/explore"
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.18 }}
-          className="hidden lg:flex items-center gap-2 bg-[#141414] border border-white/8 rounded-full px-4 py-2 text-sm text-[#555] hover:border-[#C9A84C]/30 transition-colors transition-shadow hover:shadow-[0_10px_30px_rgba(201,168,76,0.08)] w-[250px] h-10 flex-shrink-0 [&>span]:whitespace-nowrap"
+          className="hidden lg:flex items-center gap-2 bg-[var(--color-secondary)] border border-[var(--color-border)] rounded-full px-4 py-2 text-sm text-[var(--color-muted-foreground)] hover:border-[#C9A84C]/30 transition-colors transition-shadow hover:shadow-[0_10px_30px_rgba(201,168,76,0.08)] w-[250px] h-10 flex-shrink-0 [&>span]:whitespace-nowrap"
         >
-          <Search className="w-3.5 h-3.5 text-[#444] flex-shrink-0" />
+          <Search className="w-3.5 h-3.5 text-[var(--color-muted-foreground)] flex-shrink-0" />
           <span>Search fragrances…</span>
           <span className="ml-auto text-[10px] font-mono-label bg-white/8 rounded px-1.5 py-0.5 text-[#555]">⌘K</span>
         </MotionLink>
@@ -187,18 +167,18 @@ function Navbar() {
         <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
           <motion.button
             aria-label="Toggle theme"
-            onClick={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))}
+            onClick={() => toggleTheme()}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.96 }}
-            className="p-2 rounded-full hover:bg-white/5 text-[#F0EBE0] transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)]"
+            className="p-2 rounded-full hover:bg-[var(--color-secondary)] text-[var(--color-foreground)] transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)]"
           >
-            {theme === 'light' ? <Sun className="w-5 h-5 text-[#F0EBE0]" /> : <Moon className="w-5 h-5 text-[#F0EBE0]" />}
+            {theme === 'light' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </motion.button>
           <MotionLink
             to="/login"
             whileHover={{ y: -1, scale: 1.02 }}
             transition={{ duration: 0.16 }}
-            className="text-sm text-[#F0EBE0]/55 hover:text-[#F0EBE0] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] px-3 py-2"
+            className="text-sm text-[var(--color-muted-foreground)] hover:text-[#C9A84C] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] px-3 py-2"
           >
             Login
           </MotionLink>
@@ -213,7 +193,7 @@ function Navbar() {
           </MotionLink>
         </div>
 
-        <button className="lg:hidden ml-auto text-[#F0EBE0]" onClick={() => setOpen(!open)}>
+        <button className="lg:hidden ml-auto text-[var(--color-foreground)]" onClick={() => setOpen(!open)}>
           {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
@@ -221,13 +201,13 @@ function Navbar() {
       {open && (
         <div className="lg:hidden px-8 py-5" style={{ backgroundColor: 'var(--background)', borderTop: '1px solid var(--border)' }}>
           {links.map((link) => (
-            <Link key={link.label} to={link.to} onClick={() => setOpen(false)} className="block py-3 text-sm text-[#F0EBE0]/60 hover:text-[#F0EBE0] border-b border-white/5 last:border-0 transition-colors">
+            <Link key={link.label} to={link.to} onClick={() => setOpen(false)} className="block py-3 text-sm text-[var(--color-muted-foreground)] hover:text-[#C9A84C] border-b border-[var(--color-border)] last:border-0 transition-colors">
               {link.label}
             </Link>
           ))}
           <div className="flex gap-3 mt-5">
-            <Link to="/login" onClick={() => setOpen(false)} className="flex-1 text-center text-sm text-[#F0EBE0] border border-white/15 py-2.5 rounded-full">Login</Link>
-            <Link to="/signup" onClick={() => setOpen(false)} className="flex-1 text-center text-sm font-medium text-[#080808] bg-[#C9A84C] py-2.5 rounded-full">Sign Up</Link>
+            <Link to="/login" onClick={() => setOpen(false)} className="flex-1 text-center text-sm text-[var(--color-foreground)] border border-[var(--color-border)] py-2.5 rounded-full hover:text-[#C9A84C] transition-colors">Login</Link>
+            <Link to="/signup" onClick={() => setOpen(false)} className="flex-1 text-center text-sm font-medium text-[#080808] bg-[#C9A84C] py-2.5 rounded-full hover:bg-[#D4B05A] transition-colors">Sign Up</Link>
           </div>
         </div>
       )}
@@ -505,7 +485,7 @@ function NotesSection() {
         </div>
 
         {/* Active note hint */}
-        <button onClick={() => navigate(`/explore?note=${encodeURIComponent(active)}`)} className="flex items-center justify-center gap-3 text-sm text-[#666] hover:text-[#F0EBE0] transition-colors mx-auto">
+        <button onClick={() => navigate(`/explore?note=${encodeURIComponent(active)}`)} className="flex items-center justify-center gap-3 text-sm text-[#666] hover:text-[#C9A84C] transition-colors mx-auto">
           <span>Showing</span>
           <span className="text-[#C9A84C] font-medium">{NOTES.find((n) => n.name === active)?.count}</span>
           <span>fragrances with</span>
@@ -540,7 +520,7 @@ function BrandsSection() {
               transition={{ type: "spring", stiffness: 230, damping: 20 }}
               className="group flex flex-col items-center justify-center gap-1.5 bg-[#111111] border border-white/6 hover:border-[#C9A84C]/30 rounded-2xl px-6 py-6 transition-all duration-200 hover:bg-[#141414] hover:shadow-[0_8px_32px_rgba(201,168,76,0.06)] cursor-pointer"
             >
-              <div className="font-display text-base text-[#F0EBE0]/65 group-hover:text-[#F0EBE0] transition-colors tracking-wide leading-tight text-center">
+              <div className="font-display text-basetext-[#555] group-hover:text-[#C9A84C]/60 transition-colors tracking-wide leading-tight text-center">
                 {brand.name}
               </div>
               <div className="text-[10px] font-mono-label text-[#555] group-hover:text-[#C9A84C]/60 transition-colors">
@@ -810,9 +790,9 @@ function Footer() {
                   <li key={link}>
                     <MotionLink
                       to={footerRoutes[link] ?? "/explore"}
-                      whileHover={{ x: 2, scale: 1.01 }}
+                      whileHover={{ x: 2, scale: 1.01, color: "#C9A84C" }}
                       transition={{ duration: 0.16 }}
-                      className="text-sm text-[#555] hover:text-[#F0EBE0] transition-colors"
+                      className="text-sm text-[#555] hover:text-[#C9A84C] transition-colors"
                     >
                       {link}
                     </MotionLink>
@@ -836,7 +816,7 @@ function Footer() {
                 href="#"
                 whileHover={{ y: -1, scale: 1.02 }}
                 transition={{ duration: 0.16 }}
-                className="text-xs text-[#444] hover:text-[#777] transition-colors"
+                className="text-xs text-[#444] hover:text-[#C9A84C] transition-colors"
               >
                 {link}
               </MotionAnchor>
@@ -890,9 +870,9 @@ function ExplorePage() {
       </div>
       <p className="text-sm text-[#777] mb-6">{results.length} fragrance{results.length === 1 ? "" : "s"} found{term && ` for “${params.get("q")}”`}{selectedNote && ` with ${selectedNote} notes`}</p>
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {results.map((p) => <button key={`${p.name}-${p.brand}`} onClick={() => navigate(fragranceRoute(p))} className="text-left group bg-[#111] border border-white/10 hover:border-[#C9A84C]/40 rounded-2xl overflow-hidden">
+        {results.map((p) => <button key={`${p.name}-${p.brand}`} onClick={() => navigate(fragranceRoute(p))} className="text-left group bg-[#111] border border-white/10 hover:border-[#C9A84C]/40 rounded-2xl overflow-hidden transition-colors">
           <ImageWithFallback src={fragranceImageUrl(p.img, 500, 360)} alt={p.name} className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-500" />
-          <div className="p-5"><p className="text-xs text-[#C9A84C] mb-1">{p.brand}</p><h2 className="font-display text-xl text-[#F0EBE0]">{p.name}</h2><div className="mt-3 flex items-center gap-2"><Stars rating={p.rating} sm /><span className="text-xs text-[#777]">{p.rating}</span></div></div>
+          <div className="p-5"><p className="text-xs text-[#C9A84C] mb-1 transition-colors group-hover:text-[#F0EBE0]">{p.brand}</p><h2 className="font-display text-xl text-[#F0EBE0] transition-colors group-hover:text-[#C9A84C]">{p.name}</h2><div className="mt-3 flex items-center gap-2"><Stars rating={p.rating} sm /><span className="text-xs text-[#777] transition-colors group-hover:text-[#F0EBE0]">{p.rating}</span></div></div>
         </button>)}
       </div>
       {!results.length && <div className="bg-[#111] border border-white/10 rounded-2xl p-10 text-[#777]">No exact match yet. Try a perfume or brand name from the collection.</div>}
@@ -905,9 +885,9 @@ function BrandsPage() {
   const selected = params.get("selected");
   const navigate = useNavigate();
   return <main className="min-h-screen bg-[#080808] pt-32 pb-24"><div className="max-w-[1200px] mx-auto px-8">
-    <p className="text-xs text-[#C9A84C] tracking-[0.3em] uppercase mb-3">Curated Houses</p><h1 className="font-display text-5xl text-[#F0EBE0] mb-4">Fragrance Brands</h1>
+    <p className="text-xs text-[#C9A84C] tracking-[0.3em] uppercase mb-3">Curated Houses</p><h1 className="font-display text-5xl text-[#18140c] mb-4">Fragrance Brands</h1>
     <p className="text-[#777] mb-10">{selected ? `Browsing ${selected}. Choose another house below.` : "Discover the houses behind the world's most memorable scents."}</p>
-    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">{BRANDS.map((brand) => <button onClick={() => navigate(`/explore?q=${encodeURIComponent(brand.name)}`)} key={brand.name} className="text-left bg-[#111] border border-white/10 hover:border-[#C9A84C]/40 rounded-2xl p-6"><h2 className="font-display text-xl text-[#F0EBE0]">{brand.name}</h2><p className="text-sm text-[#777] mt-2">Established {brand.founded}</p></button>)}</div>
+    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">{BRANDS.map((brand) => <button onClick={() => navigate(`/explore?q=${encodeURIComponent(brand.name)}`)} key={brand.name} className="text-left bg-[#111] border border-white/10 hover:border-[#C9A84C]/40 rounded-2xl p-6"><h2 className="font-display text-xl text-[var(--color-foreground)] font-medium">{brand.name}</h2><p className="text-sm text-[var(--color-muted-foreground)] mt-2">Established {brand.founded}</p></button>)}</div>
   </div></main>;
 }
 
@@ -1012,7 +992,7 @@ function LoginPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword((current) => !current)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#888] hover:text-[#F0EBE0]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#888] hover:text-[#C9A84C]"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -1029,7 +1009,7 @@ function LoginPage() {
               />
               Remember me
             </label>
-            <Link to="/signup" className="text-[#C9A84C] hover:text-[#D4B05A] transition-colors">Create account</Link>
+            <Link to="/signup" className="text-[#C9A84C] hover:text-[#C9A84C] transition-colors">Create account</Link>
           </div>
 
           {error && <p role="alert" className="text-sm text-[#F59E0B]">{error}</p>}
@@ -1091,7 +1071,7 @@ function SignUpPage() {
 
   if (complete) return <main className="min-h-screen bg-[#080808] pt-32 pb-24"><div className="max-w-lg mx-auto px-8 text-center"><div className="bg-[#111] border border-[#C9A84C]/30 rounded-3xl p-10"><Sparkles className="w-8 h-8 text-[#C9A84C] mx-auto mb-5" /><p className="text-xs text-[#C9A84C] tracking-[0.3em] uppercase mb-3">You are ready</p><h1 className="font-display text-4xl text-[#F0EBE0] mb-4">Welcome, {form.name}.</h1><p className="text-[#999] leading-relaxed mb-8">Your sign-up details are saved. Connect your authentication backend next to create and securely store your account.</p><div className="flex justify-center"><Link to="/explore" className="inline-flex justify-center bg-[#C9A84C] text-[#080808] font-semibold px-7 py-3.5 rounded-full">Explore fragrances</Link></div></div></div></main>;
 
-  return <main className="min-h-screen bg-[#080808] pt-32 pb-24"><div className="max-w-lg mx-auto px-8"><div className="text-center mb-9"><p className="text-xs text-[#C9A84C] tracking-[0.3em] uppercase mb-3">Join ScentBase</p><h1 className="font-display text-5xl text-[#F0EBE0] mb-3">Begin your scent story</h1><p className="text-[#777]">Create a profile to save the fragrances that move you.</p></div><form onSubmit={submit} className="bg-[#111] border border-white/10 rounded-3xl p-7 sm:p-9 space-y-5"><label className="block text-sm text-[#D8D1C4]">Full name<input value={form.name} onChange={(e) => update("name", e.target.value)} autoComplete="name" placeholder="Your name" className="mt-2 w-full bg-[#181818] border border-white/10 focus:border-[#C9A84C]/50 rounded-xl px-4 py-3.5 text-[#F0EBE0] outline-none" /></label><label className="block text-sm text-[#D8D1C4]">Email address<input type="email" value={form.email} onChange={(e) => update("email", e.target.value)} autoComplete="email" placeholder="you@example.com" className="mt-2 w-full bg-[#181818] border border-white/10 focus:border-[#C9A84C]/50 rounded-xl px-4 py-3.5 text-[#F0EBE0] outline-none" /></label><div className="grid sm:grid-cols-2 gap-5"><label className="block text-sm text-[#D8D1C4]">Password<input type="password" value={form.password} onChange={(e) => update("password", e.target.value)} autoComplete="new-password" placeholder="8+ characters" className="mt-2 w-full bg-[#181818] border border-white/10 focus:border-[#C9A84C]/50 rounded-xl px-4 py-3.5 text-[#F0EBE0] outline-none" /></label><label className="block text-sm text-[#D8D1C4]">Confirm password<input type="password" value={form.confirmPassword} onChange={(e) => update("confirmPassword", e.target.value)} autoComplete="new-password" placeholder="Repeat password" className="mt-2 w-full bg-[#181818] border border-white/10 focus:border-[#C9A84C]/50 rounded-xl px-4 py-3.5 text-[#F0EBE0] outline-none" /></label></div>{error && <p role="alert" className="text-sm text-red-300 bg-red-500/10 border border-red-400/20 rounded-xl px-4 py-3">{error}</p>}<button type="submit" className="w-full bg-[#C9A84C] hover:bg-[#D4B05A] text-[#080808] font-semibold py-4 rounded-xl transition-colors">Create account</button><p className="text-center text-sm text-[#777]">Already a member? <Link to="/login" className="text-[#C9A84C] hover:text-[#E0C16A]">Log in</Link></p></form></div></main>;
+  return <main className="min-h-screen bg-[#080808] pt-32 pb-24"><div className="max-w-lg mx-auto px-8"><div className="text-center mb-9"><p className="text-xs text-[#C9A84C] tracking-[0.3em] uppercase mb-3">Join ScentBase</p><h1 className="font-display text-5xl text-[#F0EBE0] mb-3">Begin your scent story</h1><p className="text-[#777]">Create a profile to save the fragrances that move you.</p></div><form onSubmit={submit} className="bg-[#111] border border-white/10 rounded-3xl p-7 sm:p-9 space-y-5"><label className="block text-sm text-[#D8D1C4]">Full name<input value={form.name} onChange={(e) => update("name", e.target.value)} autoComplete="name" placeholder="Your name" className="mt-2 w-full bg-[#181818] border border-white/10 focus:border-[#C9A84C]/50 rounded-xl px-4 py-3.5 text-[#F0EBE0] outline-none" /></label><label className="block text-sm text-[#D8D1C4]">Email address<input type="email" value={form.email} onChange={(e) => update("email", e.target.value)} autoComplete="email" placeholder="you@example.com" className="mt-2 w-full bg-[#181818] border border-white/10 focus:border-[#C9A84C]/50 rounded-xl px-4 py-3.5 text-[#F0EBE0] outline-none" /></label><div className="grid sm:grid-cols-2 gap-5"><label className="block text-sm text-[#D8D1C4]">Password<input type="password" value={form.password} onChange={(e) => update("password", e.target.value)} autoComplete="new-password" placeholder="8+ characters" className="mt-2 w-full bg-[#181818] border border-white/10 focus:border-[#C9A84C]/50 rounded-xl px-4 py-3.5 text-[#F0EBE0] outline-none" /></label><label className="block text-sm text-[#D8D1C4]">Confirm password<input type="password" value={form.confirmPassword} onChange={(e) => update("confirmPassword", e.target.value)} autoComplete="new-password" placeholder="Repeat password" className="mt-2 w-full bg-[#181818] border border-white/10 focus:border-[#C9A84C]/50 rounded-xl px-4 py-3.5 text-[#F0EBE0] outline-none" /></label></div>{error && <p role="alert" className="text-sm text-red-300 bg-red-500/10 border border-red-400/20 rounded-xl px-4 py-3">{error}</p>}<button type="submit" className="w-full bg-[#C9A84C] hover:bg-[#D4B05A] text-[#080808] font-semibold py-4 rounded-xl transition-colors">Create account</button><p className="text-center text-sm text-[#777]">Already a member? <Link to="/login" className="text-[#C9A84C] hover:text-[#C9A84C]">Log in</Link></p></form></div></main>;
 }
 
 function FragrancePage() {
@@ -1112,9 +1092,10 @@ function HomePage() { return <><Hero /><TrendingSection /><NotesSection /><Brand
 
 export default function App() {
   return (
-    <div className="bg-[#080808] text-[#F0EBE0] min-w-[360px]">
-      <ScrollToTop />
-      <Navbar />
+    <ThemeProvider>
+      <div className="min-w-[360px]">
+        <ScrollToTop />
+        <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/explore" element={<ExplorePage />} />
@@ -1131,6 +1112,7 @@ export default function App() {
         <Route path="*" element={<SimplePage title="Page not found" eyebrow="404"><Link to="/" className="text-[#C9A84C]">Go home</Link></SimplePage>} />
       </Routes>
       <Footer />
-    </div>
+      </div>
+    </ThemeProvider>
   );
 }
