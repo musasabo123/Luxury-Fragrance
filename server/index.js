@@ -101,6 +101,7 @@ const server = http.createServer(async (req, res) => {
           name: String(body.name),
           email,
           passwordHash: pwHash,
+          role: "user",
           createdAt: new Date(),
         });
         res.writeHead(201, headers);
@@ -136,7 +137,7 @@ const server = http.createServer(async (req, res) => {
         return res.end(JSON.stringify({ error: "invalid_credentials" }));
       }
       res.writeHead(200, headers);
-      return res.end(JSON.stringify({ ok: true, email, name: user.name }));
+      return res.end(JSON.stringify({ ok: true, email, name: user.name, role: user.role || "user" }));
     }
 
     res.writeHead(404, headers);
