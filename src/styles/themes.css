@@ -151,6 +151,52 @@
 .light .bg-\[\#C9A84C\] { background-color: var(--color-accent) !important; }
 .light .hover\:bg-\[\#D4B05A\]:hover { background-color: #D4B05A !important; }
 
+/* Navbar controls need a clear affordance in both color modes. */
+.navbar-interactive {
+  cursor: pointer;
+}
+
+.navbar-interactive:hover,
+.navbar-interactive:focus-visible {
+  color: var(--accent) !important;
+}
+
+/* Strong visual feedback for the Explore search action, without motion. */
+.explore-search-button:hover,
+.explore-search-button:focus-visible {
+  background-color: #D9BA5D !important;
+  box-shadow: 0 0 0 1px rgba(240, 235, 224, 0.22), 0 8px 20px rgba(201, 168, 76, 0.2);
+}
+
+/* Brand cards use a warm, light-gold hover treatment in either theme. */
+.brand-card:hover,
+.brand-card:focus-visible {
+  background-color: rgba(201, 168, 76, 0.09) !important;
+  border-color: rgba(201, 168, 76, 0.5) !important;
+}
+
+.brand-card:hover .brand-card-title,
+.brand-card:focus-visible .brand-card-title {
+  color: #E2C36B !important;
+}
+
+.brand-card:hover .brand-card-detail,
+.brand-card:focus-visible .brand-card-detail {
+  color: var(--foreground) !important;
+}
+
+/* Retain the footer's gold interactions when light-mode text overrides are active. */
+.footer-interactive:hover,
+.footer-interactive:focus-visible {
+  color: var(--accent) !important;
+}
+
+.footer-social:hover,
+.footer-social:focus-visible {
+  border-color: rgba(201, 168, 76, 0.55) !important;
+  background-color: rgba(201, 168, 76, 0.08);
+}
+
 
 @theme inline {
   --color-background: var(--background);

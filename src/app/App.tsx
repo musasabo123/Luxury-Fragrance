@@ -4,7 +4,7 @@ import { ImageWithFallback } from "./components/figma/ImageWithFallback";
 import {
   Search, Star, ChevronRight, ChevronLeft, ArrowRight,
   Instagram, Twitter, Youtube, Mail, Menu, X, Flame,
-  Droplets, Wind, Sparkles, Eye, EyeOff, Lock,
+  Droplets, Wind, Sparkles, Eye, EyeOff, Check,
 } from "lucide-react";
 import { Sun, Moon } from "lucide-react";
 import { motion } from "motion/react";
@@ -126,7 +126,7 @@ function Navbar() {
         {/* Logo */}
         <Link
           to="/"
-          className="font-display text-xl tracking-[0.12em] text-[var(--color-foreground)] flex items-center gap-2.5 flex-shrink-0"
+          className="navbar-interactive font-display text-xl tracking-[0.12em] text-[var(--color-foreground)] hover:text-[#C9A84C] flex items-center gap-2.5 flex-shrink-0 transition-colors cursor-pointer"
         >
           <span className="text-[#C9A84C] text-base">✦</span>
           ScentBase
@@ -140,10 +140,10 @@ function Navbar() {
               to={link.to}
               whileHover={{ y: -1, scale: 1.01 }}
               transition={{ duration: 0.18 }}
-              className={`px-4 py-2 text-sm rounded-full transition-colors transition-shadow ${
+              className={`navbar-interactive px-4 py-2 text-sm rounded-full transition-colors transition-shadow ${
                 location.pathname === link.to
-                  ? "text-[#C9A84C] bg-[#C9A84C]/8 shadow-[0_8px_24px_rgba(201,168,76,0.16)]"
-                  : "text-[var(--color-muted-foreground)] hover:text-[#C9A84C] hover:bg-[var(--color-secondary)] hover:shadow-[0_8px_24px_rgba(201,168,76,0.12)]"
+                  ? "text-[#C9A84C] bg-[#C9A84C]/8 shadow-[0_8px_24px_rgba(201,168,76,0.16)] cursor-pointer"
+                  : "text-[var(--color-muted-foreground)] hover:text-[#C9A84C] hover:bg-[var(--color-secondary)] hover:shadow-[0_8px_24px_rgba(201,168,76,0.12)] cursor-pointer"
               }`}
             >
               {link.label}
@@ -156,7 +156,7 @@ function Navbar() {
           to="/explore"
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.18 }}
-          className="hidden lg:flex items-center gap-2 bg-[var(--color-secondary)] border border-[var(--color-border)] rounded-full px-4 py-2 text-sm text-[var(--color-muted-foreground)] hover:border-[#C9A84C]/30 transition-colors transition-shadow hover:shadow-[0_10px_30px_rgba(201,168,76,0.08)] w-[250px] h-10 flex-shrink-0 [&>span]:whitespace-nowrap"
+          className="navbar-interactive hidden lg:flex items-center gap-2 bg-[var(--color-secondary)] border border-[var(--color-border)] rounded-full px-4 py-2 text-sm text-[var(--color-muted-foreground)] hover:text-[#C9A84C] hover:border-[#C9A84C]/30 transition-colors transition-shadow hover:shadow-[0_10px_30px_rgba(201,168,76,0.08)] w-[250px] h-10 flex-shrink-0 [&>span]:whitespace-nowrap cursor-pointer"
         >
           <Search className="w-3.5 h-3.5 text-[var(--color-muted-foreground)] flex-shrink-0" />
           <span>Search fragrances…</span>
@@ -170,7 +170,7 @@ function Navbar() {
             onClick={() => toggleTheme()}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.96 }}
-            className="p-2 rounded-full hover:bg-[var(--color-secondary)] text-[var(--color-foreground)] transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)]"
+            className="navbar-interactive p-2 rounded-full hover:bg-[var(--color-secondary)] hover:text-[#C9A84C] text-[var(--color-foreground)] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] cursor-pointer"
           >
             {theme === 'light' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </motion.button>
@@ -178,7 +178,7 @@ function Navbar() {
             to="/login"
             whileHover={{ y: -1, scale: 1.02 }}
             transition={{ duration: 0.16 }}
-            className="text-sm text-[var(--color-muted-foreground)] hover:text-[#C9A84C] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] px-3 py-2"
+            className="navbar-interactive text-sm text-[var(--color-muted-foreground)] hover:text-[#C9A84C] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] px-3 py-2 cursor-pointer"
           >
             Login
           </MotionLink>
@@ -187,13 +187,13 @@ function Navbar() {
             whileHover={{ y: -1, scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 260, damping: 22 }}
-            className="text-sm font-medium text-[#080808] bg-[#C9A84C] hover:bg-[#D4B05A] transition-all transition-shadow hover:shadow-[0_12px_36px_rgba(201,168,76,0.14)] px-6 py-2.5 rounded-full glow-strong"
+            className="text-sm font-medium text-[#080808] bg-[#C9A84C] hover:bg-[#D4B05A] transition-all transition-shadow hover:shadow-[0_12px_36px_rgba(201,168,76,0.14)] px-6 py-2.5 rounded-full glow-strong cursor-pointer"
           >
             Sign Up
           </MotionLink>
         </div>
 
-        <button className="lg:hidden ml-auto text-[var(--color-foreground)]" onClick={() => setOpen(!open)}>
+        <button className="navbar-interactive lg:hidden ml-auto text-[var(--color-foreground)] hover:text-[#C9A84C] transition-colors cursor-pointer" onClick={() => setOpen(!open)}>
           {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
@@ -201,13 +201,13 @@ function Navbar() {
       {open && (
         <div className="lg:hidden px-8 py-5" style={{ backgroundColor: 'var(--background)', borderTop: '1px solid var(--border)' }}>
           {links.map((link) => (
-            <Link key={link.label} to={link.to} onClick={() => setOpen(false)} className="block py-3 text-sm text-[var(--color-muted-foreground)] hover:text-[#C9A84C] border-b border-[var(--color-border)] last:border-0 transition-colors">
+            <Link key={link.label} to={link.to} onClick={() => setOpen(false)} className="navbar-interactive block py-3 text-sm text-[var(--color-muted-foreground)] hover:text-[#C9A84C] border-b border-[var(--color-border)] last:border-0 transition-colors cursor-pointer">
               {link.label}
             </Link>
           ))}
           <div className="flex gap-3 mt-5">
-            <Link to="/login" onClick={() => setOpen(false)} className="flex-1 text-center text-sm text-[var(--color-foreground)] border border-[var(--color-border)] py-2.5 rounded-full hover:text-[#C9A84C] transition-colors">Login</Link>
-            <Link to="/signup" onClick={() => setOpen(false)} className="flex-1 text-center text-sm font-medium text-[#080808] bg-[#C9A84C] py-2.5 rounded-full hover:bg-[#D4B05A] transition-colors">Sign Up</Link>
+            <Link to="/login" onClick={() => setOpen(false)} className="navbar-interactive flex-1 text-center text-sm text-[var(--color-foreground)] border border-[var(--color-border)] py-2.5 rounded-full hover:text-[#C9A84C] transition-colors cursor-pointer">Login</Link>
+            <Link to="/signup" onClick={() => setOpen(false)} className="flex-1 text-center text-sm font-medium text-[#080808] bg-[#C9A84C] py-2.5 rounded-full hover:bg-[#D4B05A] transition-colors cursor-pointer">Sign Up</Link>
           </div>
         </div>
       )}
@@ -274,7 +274,7 @@ function Hero() {
               onClick={search}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.96 }}
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#C9A84C] hover:bg-[#D4B05A] text-[#080808] text-xs font-semibold tracking-wide px-5 py-2.5 rounded-full transition-all active:scale-95 glow-strong"
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#C9A84C] hover:bg-[#D4B05A] text-[#080808] text-xs font-semibold tracking-wide px-5 py-2.5 rounded-full transition-all active:scale-95 glow-strong cursor-pointer"
             >
               Search
             </motion.button>
@@ -287,11 +287,11 @@ function Hero() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              className="flex items-center gap-2.5 bg-[#C9A84C] hover:bg-[#D4B05A] text-[#080808] font-semibold text-sm px-8 py-4 rounded-full transition-all active:scale-[0.98] shadow-[0_8px_32px_rgba(201,168,76,0.25)] glow-strong"
+              className="flex items-center gap-2.5 bg-[#C9A84C] hover:bg-[#D4B05A] text-[#080808] font-semibold text-sm px-8 py-4 rounded-full transition-all active:scale-[0.98] shadow-[0_8px_32px_rgba(201,168,76,0.25)] glow-strong cursor-pointer"
             >
               Explore Now <ArrowRight className="w-4 h-4" />
             </motion.button>
-            <button onClick={() => document.getElementById("top-rated")?.scrollIntoView({ behavior: "smooth" })} className="flex items-center gap-3 text-[#F0EBE0]/60 hover:text-[#F0EBE0] text-sm transition-colors group">
+            <button onClick={() => document.getElementById("top-rated")?.scrollIntoView({ behavior: "smooth" })} className="flex items-center gap-3 text-[#F0EBE0]/60 hover:text-[#F0EBE0] text-sm transition-colors group cursor-pointer">
               <span className="w-11 h-11 rounded-full border border-white/15 group-hover:border-[#C9A84C]/40 flex items-center justify-center transition-all group-hover:bg-[#C9A84C]/8">
                 <ChevronRight className="w-4 h-4" />
               </span>
@@ -378,7 +378,7 @@ function TrendingSection() {
           </div>
           <Link
             to="/explore?sort=trending"
-            className="flex items-center gap-2 text-sm text-[#666] hover:text-[#C9A84C] transition-colors group"
+            className="flex items-center gap-2 text-sm text-[#666] hover:text-[#C9A84C] transition-colors group cursor-pointer"
           >
             View all trending
             <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -485,7 +485,7 @@ function NotesSection() {
         </div>
 
         {/* Active note hint */}
-        <button onClick={() => navigate(`/explore?note=${encodeURIComponent(active)}`)} className="flex items-center justify-center gap-3 text-sm text-[#666] hover:text-[#C9A84C] transition-colors mx-auto">
+        <button onClick={() => navigate(`/explore?note=${encodeURIComponent(active)}`)} className="flex items-center justify-center gap-3 text-sm text-[#666] hover:text-[#C9A84C] transition-colors mx-auto cursor-pointer">
           <span>Showing</span>
           <span className="text-[#C9A84C] font-medium">{NOTES.find((n) => n.name === active)?.count}</span>
           <span>fragrances with</span>
@@ -531,7 +531,7 @@ function BrandsSection() {
         </div>
 
         <div className="text-center mt-10">
-          <button onClick={() => navigate("/brands")} className="inline-flex items-center gap-2.5 text-sm text-[#666] hover:text-[#C9A84C] border border-white/10 hover:border-[#C9A84C]/25 rounded-full px-7 py-3 transition-all">
+          <button onClick={() => navigate("/brands")} className="inline-flex items-center gap-2.5 text-sm text-[#666] hover:text-[#C9A84C] border border-white/10 hover:border-[#C9A84C]/25 rounded-full px-7 py-3 transition-all cursor-pointer">
             Browse all 12,000+ brands <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -566,13 +566,13 @@ function TopRatedSection() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => scroll("left")}
-              className="w-11 h-11 rounded-full border border-white/12 flex items-center justify-center text-[#666] hover:border-[#C9A84C]/40 hover:text-[#C9A84C] transition-all"
+              className="w-11 h-11 rounded-full border border-white/12 flex items-center justify-center text-[#666] hover:border-[#C9A84C]/40 hover:text-[#C9A84C] transition-all cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={() => scroll("right")}
-              className="w-11 h-11 rounded-full border border-white/12 flex items-center justify-center text-[#666] hover:border-[#C9A84C]/40 hover:text-[#C9A84C] transition-all"
+              className="w-11 h-11 rounded-full border border-white/12 flex items-center justify-center text-[#666] hover:border-[#C9A84C]/40 hover:text-[#C9A84C] transition-all cursor-pointer"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -708,7 +708,7 @@ function Newsletter() {
                 />
                 <button
                   type="submit"
-                  className="bg-[#C9A84C] hover:bg-[#D4B05A] text-[#080808] font-semibold text-sm px-8 py-4 rounded-full transition-all hover:scale-[1.02] active:scale-95 whitespace-nowrap shadow-[0_4px_20px_rgba(201,168,76,0.3)]"
+                  className="bg-[#C9A84C] hover:bg-[#D4B05A] text-[#080808] font-semibold text-sm px-8 py-4 rounded-full transition-all hover:scale-[1.02] active:scale-95 whitespace-nowrap shadow-[0_4px_20px_rgba(201,168,76,0.3)] cursor-pointer"
                 >
                   Subscribe
                 </button>
@@ -773,7 +773,7 @@ function Footer() {
                   href="#"
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-10 h-10 rounded-full border border-white/10 hover:border-[#C9A84C]/35 flex items-center justify-center text-[#555] hover:text-[#C9A84C] transition-all"
+                  className="footer-interactive footer-social w-10 h-10 rounded-full border border-white/10 hover:border-[#C9A84C]/35 flex items-center justify-center text-[#555] hover:text-[#C9A84C] transition-all cursor-pointer"
                 >
                   <Icon className="w-4 h-4" />
                 </MotionAnchor>
@@ -792,7 +792,7 @@ function Footer() {
                       to={footerRoutes[link] ?? "/explore"}
                       whileHover={{ x: 2, scale: 1.01, color: "#C9A84C" }}
                       transition={{ duration: 0.16 }}
-                      className="text-sm text-[#555] hover:text-[#C9A84C] transition-colors"
+                      className="footer-interactive text-sm text-[#555] hover:text-[#C9A84C] transition-colors cursor-pointer"
                     >
                       {link}
                     </MotionLink>
@@ -816,7 +816,7 @@ function Footer() {
                 href="#"
                 whileHover={{ y: -1, scale: 1.02 }}
                 transition={{ duration: 0.16 }}
-                className="text-xs text-[#444] hover:text-[#C9A84C] transition-colors"
+                className="footer-interactive text-xs text-[#444] hover:text-[#C9A84C] transition-colors cursor-pointer"
               >
                 {link}
               </MotionAnchor>
@@ -866,14 +866,14 @@ function ExplorePage() {
       <h1 className="font-display text-5xl text-[#F0EBE0] mb-8">Explore Fragrances</h1>
       <div className="flex max-w-2xl gap-3 mb-12">
         <input value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => e.key === "Enter" && runSearch()} placeholder="Search perfumes or brands" className="flex-1 bg-[#141414] border border-white/10 focus:border-[#C9A84C]/40 rounded-full px-6 py-4 text-[#F0EBE0] outline-none" />
-        <button onClick={runSearch} className="bg-[#C9A84C] text-[#080808] font-semibold px-7 rounded-full">Search</button>
+        <button onClick={runSearch} className="explore-search-button bg-[#C9A84C] text-[#080808] font-semibold px-7 rounded-full transition-all cursor-pointer">Search</button>
       </div>
       <p className="text-sm text-[#777] mb-6">{results.length} fragrance{results.length === 1 ? "" : "s"} found{term && ` for “${params.get("q")}”`}{selectedNote && ` with ${selectedNote} notes`}</p>
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {results.map((p) => <button key={`${p.name}-${p.brand}`} onClick={() => navigate(fragranceRoute(p))} className="text-left group bg-[#111] border border-white/10 hover:border-[#C9A84C]/40 rounded-2xl overflow-hidden transition-colors">
+        {results.map((p) => <motion.button key={`${p.name}-${p.brand}`} onClick={() => navigate(fragranceRoute(p))} whileHover={{ y: -6, scale: 1.01, transition: { duration: 0.16, ease: "easeOut" } }} whileTap={{ scale: 0.99 }} className="text-left group bg-[#111] border border-white/10 hover:border-[#C9A84C]/40 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_20px_60px_rgba(201,168,76,0.08)] cursor-pointer glow-strong">
           <ImageWithFallback src={fragranceImageUrl(p.img, 500, 360)} alt={p.name} className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-500" />
           <div className="p-5"><p className="text-xs text-[#C9A84C] mb-1 transition-colors group-hover:text-[#F0EBE0]">{p.brand}</p><h2 className="font-display text-xl text-[#F0EBE0] transition-colors group-hover:text-[#C9A84C]">{p.name}</h2><div className="mt-3 flex items-center gap-2"><Stars rating={p.rating} sm /><span className="text-xs text-[#777] transition-colors group-hover:text-[#F0EBE0]">{p.rating}</span></div></div>
-        </button>)}
+        </motion.button>)}
       </div>
       {!results.length && <div className="bg-[#111] border border-white/10 rounded-2xl p-10 text-[#777]">No exact match yet. Try a perfume or brand name from the collection.</div>}
     </div>
@@ -885,9 +885,9 @@ function BrandsPage() {
   const selected = params.get("selected");
   const navigate = useNavigate();
   return <main className="min-h-screen bg-[#080808] pt-32 pb-24"><div className="max-w-[1200px] mx-auto px-8">
-    <p className="text-xs text-[#C9A84C] tracking-[0.3em] uppercase mb-3">Curated Houses</p><h1 className="font-display text-5xl text-[#18140c] mb-4">Fragrance Brands</h1>
-    <p className="text-[#777] mb-10">{selected ? `Browsing ${selected}. Choose another house below.` : "Discover the houses behind the world's most memorable scents."}</p>
-    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">{BRANDS.map((brand) => <button onClick={() => navigate(`/explore?q=${encodeURIComponent(brand.name)}`)} key={brand.name} className="text-left bg-[#111] border border-white/10 hover:border-[#C9A84C]/40 rounded-2xl p-6"><h2 className="font-display text-xl text-[var(--color-foreground)] font-medium">{brand.name}</h2><p className="text-sm text-[var(--color-muted-foreground)] mt-2">Established {brand.founded}</p></button>)}</div>
+    <p className="text-xs text-[#C9A84C] tracking-[0.3em] uppercase mb-3">Curated Houses</p><h1 className="font-display text-5xl text-[var(--color-foreground)] mb-4">Fragrance Brands</h1>
+    <p className="text-[var(--color-muted-foreground)] mb-10">{selected ? `Browsing ${selected}. Choose another house below.` : "Discover the houses behind the world's most memorable scents."}</p>
+    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">{BRANDS.map((brand) => <button onClick={() => navigate(`/explore?q=${encodeURIComponent(brand.name)}`)} key={brand.name} className="brand-card text-left bg-[#111] border border-white/10 rounded-2xl p-6 transition-colors cursor-pointer"><h2 className="brand-card-title font-display text-xl text-[var(--color-foreground)] font-medium transition-colors">{brand.name}</h2><p className="brand-card-detail text-sm text-[var(--color-muted-foreground)] mt-2 transition-colors">Established {brand.founded}</p></button>)}</div>
   </div></main>;
 }
 
@@ -965,8 +965,8 @@ function LoginPage() {
           <p className="text-[#777]">Sign in to continue discovering your next signature scent.</p>
         </div>
 
-        <form onSubmit={submit} className="bg-[#111] border border-white/10 rounded-3xl p-7 sm:p-9 space-y-5">
-          <label className="block text-sm text-[#D8D1C4]">
+        <form onSubmit={submit} className="bg-[#111] border border-[#C9A84C]/15 rounded-3xl p-7 sm:p-9 space-y-5 shadow-[0_24px_70px_rgba(0,0,0,0.18)]">
+          <label className="block text-sm text-[var(--color-foreground)]">
             Email address
             <input
               type="email"
@@ -974,11 +974,11 @@ function LoginPage() {
               onChange={(e) => update("email", e.target.value)}
               autoComplete="email"
               placeholder="you@example.com"
-              className="mt-2 w-full bg-[#181818] border border-white/10 focus:border-[#C9A84C]/50 rounded-xl px-4 py-3.5 text-[#F0EBE0] outline-none"
+              className="mt-2 w-full bg-[#181818] border border-white/10 focus:border-[#C9A84C]/60 focus:ring-2 focus:ring-[#C9A84C]/15 rounded-xl px-4 py-3.5 text-[#F0EBE0] outline-none transition-all"
             />
           </label>
 
-          <label className="block text-sm text-[#D8D1C4]">
+          <label className="block text-sm text-[var(--color-foreground)]">
             Password
             <div className="mt-2 relative">
               <input
@@ -987,12 +987,12 @@ function LoginPage() {
                 onChange={(e) => update("password", e.target.value)}
                 autoComplete="current-password"
                 placeholder="Enter your password"
-                className="w-full bg-[#181818] border border-white/10 focus:border-[#C9A84C]/50 rounded-xl px-4 py-3.5 pr-12 text-[#F0EBE0] outline-none"
+                className="w-full bg-[#181818] border border-white/10 focus:border-[#C9A84C]/60 focus:ring-2 focus:ring-[#C9A84C]/15 rounded-xl px-4 py-3.5 pr-12 text-[#F0EBE0] outline-none transition-all"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((current) => !current)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#888] hover:text-[#C9A84C]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#888] hover:text-[#C9A84C] transition-colors cursor-pointer"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -1000,21 +1000,24 @@ function LoginPage() {
           </label>
 
           <div className="flex items-center justify-between gap-3 text-sm">
-            <label className="flex items-center gap-2 text-[#999]">
+            <label className="flex items-center gap-2.5 text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors cursor-pointer select-none">
               <input
                 type="checkbox"
                 checked={form.rememberMe}
                 onChange={(e) => update("rememberMe", e.target.checked)}
-                className="h-4 w-4 rounded border-white/10 bg-[#181818] text-[#C9A84C] focus:ring-[#C9A84C]"
+                className="sr-only"
               />
+              <span className={`flex h-5 w-5 items-center justify-center rounded-md border transition-all ${form.rememberMe ? "border-[#C9A84C] bg-[#C9A84C] text-[#080808] shadow-[0_0_0_3px_rgba(201,168,76,0.12)]" : "border-white/20 bg-[#181818] text-transparent"}`}>
+                <Check className="w-3.5 h-3.5 stroke-[3]" />
+              </span>
               Remember me
             </label>
-            <Link to="/signup" className="text-[#C9A84C] hover:text-[#C9A84C] transition-colors">Create account</Link>
+            <Link to="/signup" className="text-[#C9A84C] hover:text-[#D9BA5D] transition-colors cursor-pointer">Create account</Link>
           </div>
 
           {error && <p role="alert" className="text-sm text-[#F59E0B]">{error}</p>}
 
-          <button type="submit" disabled={submitting} className="w-full bg-[#C9A84C] hover:bg-[#D4B05A] text-[#080808] font-semibold py-3.5 rounded-full transition-all disabled:opacity-60 disabled:cursor-not-allowed">
+          <button type="submit" disabled={submitting} className="w-full bg-[#C9A84C] hover:bg-[#D4B05A] text-[#080808] font-semibold py-3.5 rounded-xl transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
             {submitting ? 'Signing in…' : 'Sign in'}
           </button>
 
@@ -1024,10 +1027,6 @@ function LoginPage() {
             <div className="h-px flex-1 bg-white/10" />
           </div>
 
-          <div className="rounded-2xl border border-[#C9A84C]/20 bg-[#C9A84C]/8 p-4 text-sm text-[#D8D1C4] flex items-start gap-3">
-            <Lock className="w-4 h-4 text-[#C9A84C] mt-0.5" />
-            <span>Authentication can be connected to your preferred backend or provider when you are ready.</span>
-          </div>
         </form>
       </div>
     </main>
