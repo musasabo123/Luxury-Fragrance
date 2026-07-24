@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Link, Route, Routes, useLocation, useNavigate, useParams, useSearchParams } from "react-router";
+import { Link, Navigate, Route, Routes, useLocation, useNavigate, useParams, useSearchParams } from "react-router";
 import { ImageWithFallback } from "./components/figma/ImageWithFallback";
 import {
   Search, Star, ChevronRight, ChevronLeft, ArrowRight,
@@ -7,8 +7,11 @@ import {
   Droplets, Wind, Sparkles, Eye, EyeOff, Check,
 } from "lucide-react";
 import { Sun, Moon } from "lucide-react";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import { motion } from "motion/react";
 import { ThemeProvider, useTheme } from "./ThemeContext";
+import { AuthProvider, useAuth } from "./AuthContext";
+import { logSearch, logViewFragrance } from "./services/activityLogger";
 
 const MotionLink = motion(Link);
 const MotionAnchor = motion.a;
@@ -114,11 +117,18 @@ function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const { user, isAuthenticated, isAdmin, logout } = useAuth();
+  const navigate = useNavigate();
   const links = [
     { label: "Home", to: "/" }, { label: "Explore", to: "/explore" },
     { label: "Brands", to: "/brands" }, { label: "Collections", to: "/collections" },
     { label: "About", to: "/about" },
   ];
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
   <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl" style={{ backgroundColor: 'var(--background)', borderBottom: '1px solid var(--border)' }}>
@@ -174,23 +184,48 @@ function Navbar() {
           >
             {theme === 'light' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </motion.button>
-          <MotionLink
-            to="/login"
-            whileHover={{ y: -1, scale: 1.02 }}
-            transition={{ duration: 0.16 }}
-            className="navbar-interactive text-sm text-[var(--color-muted-foreground)] hover:text-[#C9A84C] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] px-3 py-2 cursor-pointer"
-          >
-            Login
-          </MotionLink>
-          <MotionLink
-            to="/signup"
-            whileHover={{ y: -1, scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ type: "spring", stiffness: 260, damping: 22 }}
-            className="text-sm font-medium text-[#080808] bg-[#C9A84C] hover:bg-[#D4B05A] transition-all transition-shadow hover:shadow-[0_12px_36px_rgba(201,168,76,0.14)] px-6 py-2.5 rounded-full glow-strong cursor-pointer"
-          >
-            Sign Up
-          </MotionLink>
+
+          {isAuthenticated ? (
+            <>
+              {isAdmin && (
+                <Link
+                  to="/admin/dashboard"
+                  className="navbar-interactive text-sm text-[#C9A84C] hover:text-[#D4B05A] transition-colors px-3 py-2 cursor-pointer"
+                >
+                  Admin
+                </Link>
+              )}
+              <span className="text-sm text-[var(--color-muted-foreground)] px-3 py-2">
+                {user?.name}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="text-sm text-[var(--color-muted-foreground)] hover:text-[#C9A84C] transition-colors px-3 py-2 cursor-pointer"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <MotionLink
+                to="/login"
+                whileHover={{ y: -1, scale: 1.02 }}
+                transition={{ duration: 0.16 }}
+                className="navbar-interactive text-sm text-[var(--color-muted-foreground)] hover:text-[#C9A84C] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] px-3 py-2 cursor-pointer"
+              >
+                Login
+              </MotionLink>
+              <MotionLink
+                to="/signup"
+                whileHover={{ y: -1, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 260, damping: 22 }}
+                className="text-sm font-medium text-[#080808] bg-[#C9A84C] hover:bg-[#D4B05A] transition-all transition-shadow hover:shadow-[0_12px_36px_rgba(201,168,76,0.14)] px-6 py-2.5 rounded-full glow-strong cursor-pointer"
+              >
+                Sign Up
+              </MotionLink>
+            </>
+          )}
         </div>
 
         <button className="navbar-interactive lg:hidden ml-auto text-[var(--color-foreground)] hover:text-[#C9A84C] transition-colors cursor-pointer" onClick={() => setOpen(!open)}>
@@ -206,8 +241,23 @@ function Navbar() {
             </Link>
           ))}
           <div className="flex gap-3 mt-5">
-            <Link to="/login" onClick={() => setOpen(false)} className="navbar-interactive flex-1 text-center text-sm text-[var(--color-foreground)] border border-[var(--color-border)] py-2.5 rounded-full hover:text-[#C9A84C] transition-colors cursor-pointer">Login</Link>
-            <Link to="/signup" onClick={() => setOpen(false)} className="flex-1 text-center text-sm font-medium text-[#080808] bg-[#C9A84C] py-2.5 rounded-full hover:bg-[#D4B05A] transition-colors cursor-pointer">Sign Up</Link>
+            {isAuthenticated ? (
+              <>
+                {isAdmin && (
+                  <Link to="/admin/dashboard" onClick={() => setOpen(false)} className="navbar-interactive flex-1 text-center text-sm text-[#C9A84C] border border-[#C9A84C]/30 py-2.5 rounded-full hover:text-[#D4B05A] transition-colors cursor-pointer">
+                    Admin
+                  </Link>
+                )}
+                <button onClick={() => { handleLogout(); setOpen(false); }} className="flex-1 text-center text-sm text-[var(--color-foreground)] border border-[var(--color-border)] py-2.5 rounded-full hover:text-[#C9A84C] transition-colors cursor-pointer">
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" onClick={() => setOpen(false)} className="navbar-interactive flex-1 text-center text-sm text-[var(--color-foreground)] border border-[var(--color-border)] py-2.5 rounded-full hover:text-[#C9A84C] transition-colors cursor-pointer">Login</Link>
+                <Link to="/signup" onClick={() => setOpen(false)} className="flex-1 text-center text-sm font-medium text-[#080808] bg-[#C9A84C] py-2.5 rounded-full hover:bg-[#D4B05A] transition-colors cursor-pointer">Sign Up</Link>
+              </>
+            )}
           </div>
         </div>
       )}
@@ -219,9 +269,13 @@ function Navbar() {
 
 function Hero() {
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuth();
   const [query, setQuery] = useState("");
   const search = () => {
     const value = query.trim();
+    if (value && isAuthenticated && user) {
+      logSearch(user.email, user.name, value);
+    }
     navigate(value ? `/explore?q=${encodeURIComponent(value)}` : "/explore");
   };
   return (
@@ -849,6 +903,7 @@ function ScrollToTop() {
 
 function ExplorePage() {
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuth();
   const [params, setParams] = useSearchParams();
   const initialQuery = params.get("q") ?? "";
   const [query, setQuery] = useState(initialQuery);
@@ -858,7 +913,13 @@ function ExplorePage() {
     (!term || `${p.name} ${p.brand}`.toLowerCase().includes(term)) &&
     (!selectedNote || p.notes.includes(selectedNote))
   );
-  const runSearch = () => setParams(query.trim() ? { q: query.trim() } : {});
+  const runSearch = () => {
+    const value = query.trim();
+    if (value && isAuthenticated && user) {
+      logSearch(user.email, user.name, value);
+    }
+    setParams(value ? { q: value } : {});
+  };
 
   return <main className="min-h-screen bg-[#080808] pt-32 pb-24">
     <div className="max-w-[1440px] mx-auto px-8">
@@ -897,9 +958,9 @@ function SimplePage({ title, eyebrow, children }: { title: string; eyebrow: stri
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [form, setForm] = useState({ email: "", password: "", rememberMe: true });
   const [error, setError] = useState("");
-  const [complete, setComplete] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -915,46 +976,21 @@ function LoginPage() {
     setError("");
     setSubmitting(true);
 
-    try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: form.email, password: form.password }),
-      });
+    const result = await login(form.email, form.password);
 
-      const result = await response.json();
-      if (!response.ok) {
-        setError(result.error === 'invalid_credentials' ? 'The email or password is incorrect.' : result.error || 'Unable to sign in.');
-        setSubmitting(false);
-        return;
-      }
-
-      setComplete(true);
-    } catch (err) {
-      setError('Unable to reach the authentication server.');
+    if (!result.ok) {
+      setError(result.error);
       setSubmitting(false);
+      return;
+    }
+
+    // Redirect based on role
+    if (result.user.role === "admin") {
+      navigate("/admin/dashboard", { replace: true });
+    } else {
+      navigate("/", { replace: true });
     }
   };
-
-  if (complete) {
-    return (
-      <main className="min-h-screen bg-[#080808] pt-32 pb-24">
-        <div className="max-w-lg mx-auto px-8 text-center">
-          <div className="bg-[#111] border border-[#C9A84C]/30 rounded-3xl p-10">
-            <Sparkles className="w-8 h-8 text-[#C9A84C] mx-auto mb-5" />
-            <p className="text-xs text-[#C9A84C] tracking-[0.3em] uppercase mb-3">Welcome back</p>
-            <h1 className="font-display text-4xl text-[#F0EBE0] mb-4">You’re signed in.</h1>
-            <p className="text-[#999] leading-relaxed mb-8">
-              Your login details passed validation. Connect your authentication backend next to unlock saved wardrobes and recommendations.
-            </p>
-            <div className="flex justify-center">
-              <Link to="/explore" className="inline-flex justify-center bg-[#C9A84C] text-[#080808] font-semibold px-7 py-3.5 rounded-full">Explore fragrances</Link>
-            </div>
-          </div>
-        </div>
-      </main>
-    );
-  }
 
   return (
     <main className="min-h-screen bg-[#080808] pt-32 pb-24">
@@ -1068,7 +1104,7 @@ function SignUpPage() {
     }
   };
 
-  if (complete) return <main className="min-h-screen bg-[#080808] pt-32 pb-24"><div className="max-w-lg mx-auto px-8 text-center"><div className="bg-[#111] border border-[#C9A84C]/30 rounded-3xl p-10"><Sparkles className="w-8 h-8 text-[#C9A84C] mx-auto mb-5" /><p className="text-xs text-[#C9A84C] tracking-[0.3em] uppercase mb-3">You are ready</p><h1 className="font-display text-4xl text-[#F0EBE0] mb-4">Welcome, {form.name}.</h1><p className="text-[#999] leading-relaxed mb-8">Your sign-up details are saved. Connect your authentication backend next to create and securely store your account.</p><div className="flex justify-center"><Link to="/explore" className="inline-flex justify-center bg-[#C9A84C] text-[#080808] font-semibold px-7 py-3.5 rounded-full">Explore fragrances</Link></div></div></div></main>;
+  if (complete) return <Navigate to="/login" replace />;
 
   return <main className="min-h-screen bg-[#080808] pt-32 pb-24"><div className="max-w-lg mx-auto px-8"><div className="text-center mb-9"><p className="text-xs text-[#C9A84C] tracking-[0.3em] uppercase mb-3">Join ScentBase</p><h1 className="font-display text-5xl text-[#F0EBE0] mb-3">Begin your scent story</h1><p className="text-[#777]">Create a profile to save the fragrances that move you.</p></div><form onSubmit={submit} className="bg-[#111] border border-white/10 rounded-3xl p-7 sm:p-9 space-y-5"><label className="block text-sm text-[#D8D1C4]">Full name<input value={form.name} onChange={(e) => update("name", e.target.value)} autoComplete="name" placeholder="Your name" className="mt-2 w-full bg-[#181818] border border-white/10 focus:border-[#C9A84C]/50 rounded-xl px-4 py-3.5 text-[#F0EBE0] outline-none" /></label><label className="block text-sm text-[#D8D1C4]">Email address<input type="email" value={form.email} onChange={(e) => update("email", e.target.value)} autoComplete="email" placeholder="you@example.com" className="mt-2 w-full bg-[#181818] border border-white/10 focus:border-[#C9A84C]/50 rounded-xl px-4 py-3.5 text-[#F0EBE0] outline-none" /></label><div className="grid sm:grid-cols-2 gap-5"><label className="block text-sm text-[#D8D1C4]">Password<input type="password" value={form.password} onChange={(e) => update("password", e.target.value)} autoComplete="new-password" placeholder="8+ characters" className="mt-2 w-full bg-[#181818] border border-white/10 focus:border-[#C9A84C]/50 rounded-xl px-4 py-3.5 text-[#F0EBE0] outline-none" /></label><label className="block text-sm text-[#D8D1C4]">Confirm password<input type="password" value={form.confirmPassword} onChange={(e) => update("confirmPassword", e.target.value)} autoComplete="new-password" placeholder="Repeat password" className="mt-2 w-full bg-[#181818] border border-white/10 focus:border-[#C9A84C]/50 rounded-xl px-4 py-3.5 text-[#F0EBE0] outline-none" /></label></div>{error && <p role="alert" className="text-sm text-red-300 bg-red-500/10 border border-red-400/20 rounded-xl px-4 py-3">{error}</p>}<button type="submit" className="w-full bg-[#C9A84C] hover:bg-[#D4B05A] text-[#080808] font-semibold py-4 rounded-xl transition-colors">Create account</button><p className="text-center text-sm text-[#777]">Already a member? <Link to="/login" className="text-[#C9A84C] hover:text-[#C9A84C]">Log in</Link></p></form></div></main>;
 }
@@ -1076,10 +1112,19 @@ function SignUpPage() {
 function FragrancePage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuth();
   const routeId = id ?? "";
   const isTopRated = routeId.startsWith("top-");
   const fragranceId = isTopRated ? routeId.replace("top-", "") : routeId;
   const fragrance = (isTopRated ? TOP_RATED : TRENDING).find((p) => String(p.id) === fragranceId);
+
+  // Log fragrance view on mount
+  useEffect(() => {
+    if (fragrance && isAuthenticated && user) {
+      logViewFragrance(user.email, user.name, fragrance.name);
+    }
+  }, [fragrance, isAuthenticated, user]);
+
   if (!fragrance) return <SimplePage title="Fragrance not found" eyebrow="Catalogue"><button onClick={() => navigate("/explore")} className="text-[#C9A84C]">Return to explore</button></SimplePage>;
   return <main className="min-h-screen bg-[#080808] pt-32 pb-24"><div className="max-w-5xl mx-auto px-8 grid md:grid-cols-2 gap-12 items-start">
     <ImageWithFallback src={fragranceImageUrl(fragrance.img, 800, 900)} alt={fragrance.name} className="w-full aspect-[4/5] object-cover rounded-3xl border border-white/10" />
@@ -1089,29 +1134,54 @@ function FragrancePage() {
 
 function HomePage() { return <><Hero /><TrendingSection /><NotesSection /><BrandsSection /><TopRatedSection /><FeatureStrip /><Newsletter /></>; }
 
+// ─── Protected Admin Route ────────────────────────────────────
+
+function ProtectedAdminRoute({ children }: { children: React.ReactNode }) {
+  const { isAdmin, isAuthenticated } = useAuth();
+  const location = useLocation();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  if (!isAdmin) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <>{children}</>;
+}
+
+// ─── Admin Dashboard (imported from pages/admin) ─────────────
+
 export default function App() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
   return (
     <ThemeProvider>
-      <div className="min-w-[360px]">
-        <ScrollToTop />
-        <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/explore" element={<ExplorePage />} />
-        <Route path="/brands" element={<BrandsPage />} />
-        <Route path="/fragrance/:id" element={<FragrancePage />} />
-        <Route path="/collections" element={<SimplePage title="Your Scent Wardrobe" eyebrow="Collections">Create an account to save the fragrances you own, want to try, and loved in the past.</SimplePage>} />
-        <Route path="/about" element={<SimplePage title="About ScentBase" eyebrow="Our story"><div className="space-y-5"><p>ScentBase is a home for fragrance lovers who want to discover, compare, and collect scents with confidence. We believe that finding a fragrance should feel personal, enjoyable, and never overwhelming.</p><p>Whether you are looking for a new everyday signature, learning the difference between amber and oud, or researching a long-awaited bottle, ScentBase brings notes, ratings, brands, and community perspectives together in one thoughtful place.</p><p>Our goal is simple: make the world of fragrance easier to explore. Build your scent wardrobe, save the bottles that inspire you, and use honest community insight to find the fragrances that feel most like you.</p><p className="text-[#C9A84C]">Every scent tells a story. We are here to help you find yours.</p></div></SimplePage>} />
-        <Route path="/careers" element={<SimplePage title="Careers at ScentBase" eyebrow="Join our team">We are building a more thoughtful way to discover fragrance. We are not currently hiring, but future opportunities will be shared here.</SimplePage>} />
-        <Route path="/privacy" element={<SimplePage title="Privacy Policy" eyebrow="Your data">We respect your privacy and only use information needed to provide and improve your ScentBase experience. A complete policy will be published here before account data is collected.</SimplePage>} />
-        <Route path="/terms" element={<SimplePage title="Terms of Use" eyebrow="Using ScentBase">ScentBase content is provided to help visitors discover fragrance. Please use the platform responsibly and respect the community as features continue to grow.</SimplePage>} />
-        <Route path="/contact" element={<SimplePage title="Contact us" eyebrow="We would love to hear from you">Questions, feedback, and fragrance suggestions are always welcome. Our contact form is coming soon.</SimplePage>} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="*" element={<SimplePage title="Page not found" eyebrow="404"><Link to="/" className="text-[#C9A84C]">Go home</Link></SimplePage>} />
-      </Routes>
-      <Footer />
-      </div>
+      <AuthProvider>
+        <div className="min-w-[360px]">
+          <ScrollToTop />
+          {!isAdminRoute && <Navbar />}
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/explore" element={<ExplorePage />} />
+          <Route path="/brands" element={<BrandsPage />} />
+          <Route path="/fragrance/:id" element={<FragrancePage />} />
+          <Route path="/collections" element={<SimplePage title="Your Scent Wardrobe" eyebrow="Collections">Create an account to save the fragrances you own, want to try, and loved in the past.</SimplePage>} />
+          <Route path="/about" element={<SimplePage title="About ScentBase" eyebrow="Our story"><div className="space-y-5"><p>ScentBase is a home for fragrance lovers who want to discover, compare, and collect scents with confidence. We believe that finding a fragrance should feel personal, enjoyable, and never overwhelming.</p><p>Whether you are looking for a new everyday signature, learning the difference between amber and oud, or researching a long-awaited bottle, ScentBase brings notes, ratings, brands, and community perspectives together in one thoughtful place.</p><p>Our goal is simple: make the world of fragrance easier to explore. Build your scent wardrobe, save the bottles that inspire you, and use honest community insight to find the fragrances that feel most like you.</p><p className="text-[#C9A84C]">Every scent tells a story. We are here to help you find yours.</p></div></SimplePage>} />
+          <Route path="/careers" element={<SimplePage title="Careers at ScentBase" eyebrow="Join our team">We are building a more thoughtful way to discover fragrance. We are not currently hiring, but future opportunities will be shared here.</SimplePage>} />
+          <Route path="/privacy" element={<SimplePage title="Privacy Policy" eyebrow="Your data">We respect your privacy and only use information needed to provide and improve your ScentBase experience. A complete policy will be published here before account data is collected.</SimplePage>} />
+          <Route path="/terms" element={<SimplePage title="Terms of Use" eyebrow="Using ScentBase">ScentBase content is provided to help visitors discover fragrance. Please use the platform responsibly and respect the community as features continue to grow.</SimplePage>} />
+          <Route path="/contact" element={<SimplePage title="Contact us" eyebrow="We would love to hear from you">Questions, feedback, and fragrance suggestions are always welcome. Our contact form is coming soon.</SimplePage>} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/admin/dashboard" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>} />
+          <Route path="*" element={<SimplePage title="Page not found" eyebrow="404"><Link to="/" className="text-[#C9A84C]">Go home</Link></SimplePage>} />
+        </Routes>
+        {!isAdminRoute && <Footer />}
+        </div>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
