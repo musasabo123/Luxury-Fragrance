@@ -132,11 +132,11 @@ function Navbar() {
 
   return (
   <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl" style={{ backgroundColor: 'var(--background)', borderBottom: '1px solid var(--border)' }}>
-      <div className="max-w-[1440px] mx-auto px-8 h-[68px] flex items-center gap-8">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 h-[68px] flex items-center gap-4 sm:gap-8">
         {/* Logo */}
         <Link
           to="/"
-          className="navbar-interactive font-display text-xl tracking-[0.12em] text-[var(--color-foreground)] hover:text-[#C9A84C] flex items-center gap-2.5 flex-shrink-0 transition-colors cursor-pointer"
+          className="navbar-interactive font-display text-lg sm:text-xl tracking-[0.12em] text-[var(--color-foreground)] hover:text-[#C9A84C] flex items-center gap-2.5 flex-shrink-0 transition-colors cursor-pointer"
         >
           <span className="text-[#C9A84C] text-base">✦</span>
           ScentBase
@@ -234,13 +234,13 @@ function Navbar() {
       </div>
 
       {open && (
-        <div className="lg:hidden px-8 py-5" style={{ backgroundColor: 'var(--background)', borderTop: '1px solid var(--border)' }}>
+        <div className="lg:hidden px-4 sm:px-8 py-5" style={{ backgroundColor: 'var(--background)', borderTop: '1px solid var(--border)' }}>
           {links.map((link) => (
             <Link key={link.label} to={link.to} onClick={() => setOpen(false)} className="navbar-interactive block py-3 text-sm text-[var(--color-muted-foreground)] hover:text-[#C9A84C] border-b border-[var(--color-border)] last:border-0 transition-colors cursor-pointer">
               {link.label}
             </Link>
           ))}
-          <div className="flex gap-3 mt-5">
+          <div className="flex flex-col sm:flex-row gap-3 mt-5">
             {isAuthenticated ? (
               <>
                 {isAdmin && (
@@ -290,11 +290,11 @@ function Hero() {
       <div className="absolute right-[15%] top-1/3 w-[400px] h-[400px] bg-[#C9A84C]/4 rounded-full blur-[80px] pointer-events-none" />
       <div className="absolute left-[5%] bottom-1/4 w-[300px] h-[300px] bg-[#C9A84C]/3 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="max-w-[1440px] mx-auto px-8 w-full grid lg:grid-cols-[1fr_520px] gap-12 xl:gap-20 items-center py-16">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 w-full grid lg:grid-cols-[1fr_520px] gap-8 sm:gap-12 xl:gap-20 items-center py-12 sm:py-16">
         {/* ── Left ── */}
         <div className="relative z-10">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2.5 bg-[#C9A84C]/8 border border-[#C9A84C]/20 rounded-full px-5 py-2 mb-10">
+          <div className="inline-flex items-center gap-2.5 bg-[#C9A84C]/8 border border-[#C9A84C]/20 rounded-full px-4 sm:px-5 py-2 mb-6 sm:mb-10">
             <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full animate-pulse" />
             <span className="text-xs text-[#C9A84C] tracking-[0.22em] uppercase font-medium">
               Discover · Rate · Collect
@@ -335,13 +335,13 @@ function Hero() {
           </div>
 
           {/* CTAs */}
-          <div className="flex items-center gap-5">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5">
             <motion.button
               onClick={() => navigate("/explore")}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              className="flex items-center gap-2.5 bg-[#C9A84C] hover:bg-[#D4B05A] text-[#080808] font-semibold text-sm px-8 py-4 rounded-full transition-all active:scale-[0.98] shadow-[0_8px_32px_rgba(201,168,76,0.25)] glow-strong cursor-pointer"
+              className="flex items-center gap-2.5 bg-[#C9A84C] hover:bg-[#D4B05A] text-[#080808] font-semibold text-sm px-8 py-4 rounded-full transition-all active:scale-[0.98] shadow-[0_8px_32px_rgba(201,168,76,0.25)] glow-strong cursor-pointer w-full sm:w-auto justify-center"
             >
               Explore Now <ArrowRight className="w-4 h-4" />
             </motion.button>
@@ -354,7 +354,7 @@ function Hero() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-4 gap-6 mt-14 pt-10 border-t border-white/7">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mt-10 sm:mt-14 pt-8 sm:pt-10 border-t border-white/7">
             {[
               ["50K+", "Fragrances"],
               ["180K+", "Reviews"],
@@ -423,12 +423,12 @@ function Hero() {
 function TrendingSection() {
   const navigate = useNavigate();
   return (
-    <section className="bg-[#080808] py-28">
-      <div className="max-w-[1440px] mx-auto px-8">
-        <div className="flex items-end justify-between mb-14">
+    <section className="bg-[#080808] py-16 sm:py-28">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-10 sm:mb-14">
           <div>
             <p className="text-xs text-[#C9A84C] tracking-[0.3em] uppercase mb-3">Community Picks</p>
-            <h2 className="font-display text-5xl text-[#F0EBE0]">Trending Perfumes</h2>
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-[#F0EBE0]">Trending Perfumes</h2>
           </div>
           <Link
             to="/explore?sort=trending"
@@ -439,7 +439,7 @@ function TrendingSection() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {TRENDING.map((p, i) => (
             <motion.div
               key={p.id}
@@ -497,19 +497,19 @@ function NotesSection() {
   const navigate = useNavigate();
 
   return (
-    <section className="bg-[#0C0C0C] py-28 border-y border-white/5">
-      <div className="max-w-[1440px] mx-auto px-8">
-        <div className="text-center mb-14">
+    <section className="bg-[#0C0C0C] py-16 sm:py-28 border-y border-white/5">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8">
+        <div className="text-center mb-10 sm:mb-14">
           <p className="text-xs text-[#C9A84C] tracking-[0.3em] uppercase mb-3">Filter by Ingredient</p>
-          <h2 className="font-display text-5xl text-[#F0EBE0] mb-4">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-[#F0EBE0] mb-4">
             Browse by Fragrance Notes
           </h2>
-          <p className="text-[#666] text-base max-w-md mx-auto">
+          <p className="text-[#666] text-sm sm:text-base max-w-md mx-auto">
             Every great fragrance is a story told in notes. Start with what moves you.
           </p>
         </div>
 
-        <div className="grid grid-cols-8 gap-3 mb-10">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2.5 sm:gap-3 mb-8 sm:mb-10">
           {NOTES.map((note) => {
             const isActive = active === note.name;
             return (
@@ -557,14 +557,14 @@ function NotesSection() {
 function BrandsSection() {
   const navigate = useNavigate();
   return (
-    <section className="bg-[#080808] py-28">
-      <div className="max-w-[1440px] mx-auto px-8">
-        <div className="text-center mb-14">
+    <section className="bg-[#080808] py-16 sm:py-28">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8">
+        <div className="text-center mb-10 sm:mb-14">
           <p className="text-xs text-[#C9A84C] tracking-[0.3em] uppercase mb-3">Curated Houses</p>
-          <h2 className="font-display text-5xl text-[#F0EBE0]">Popular Brands</h2>
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-[#F0EBE0]">Popular Brands</h2>
         </div>
 
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
           {BRANDS.map((brand) => (
             <motion.button
               key={brand.name}
@@ -610,12 +610,12 @@ function TopRatedSection() {
   };
 
   return (
-    <section id="top-rated" className="bg-[#0C0C0C] py-28 border-t border-white/5">
-      <div className="max-w-[1440px] mx-auto px-8">
-        <div className="flex items-end justify-between mb-14">
+    <section id="top-rated" className="bg-[#0C0C0C] py-16 sm:py-28 border-t border-white/5">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-10 sm:mb-14">
           <div>
             <p className="text-xs text-[#C9A84C] tracking-[0.3em] uppercase mb-3">Highest Rated</p>
-            <h2 className="font-display text-5xl text-[#F0EBE0]">Top Rated Fragrances</h2>
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-[#F0EBE0]">Top Rated Fragrances</h2>
           </div>
           <div className="flex items-center gap-3">
             <button
@@ -692,9 +692,9 @@ function FeatureStrip() {
   ];
 
   return (
-    <section className="bg-[#080808] py-24 border-t border-white/5">
-      <div className="max-w-[1440px] mx-auto px-8">
-        <div className="grid grid-cols-4 gap-6">
+    <section className="bg-[#080808] py-16 sm:py-24 border-t border-white/5">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {features.map((f) => (
             <div key={f.title} className="group bg-[#111111] border border-white/6 hover:border-[#C9A84C]/20 rounded-2xl p-7 transition-all duration-200">
               <div className="w-11 h-11 rounded-xl bg-[#C9A84C]/10 border border-[#C9A84C]/15 flex items-center justify-center text-[#C9A84C] mb-5 group-hover:bg-[#C9A84C]/15 transition-colors">
@@ -717,9 +717,9 @@ function Newsletter() {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <section className="bg-[#0C0C0C] py-28 border-t border-white/5">
-      <div className="max-w-[1440px] mx-auto px-8">
-        <div className="relative bg-[#111111] border border-[#C9A84C]/15 rounded-3xl px-16 py-16 overflow-hidden">
+    <section className="bg-[#0C0C0C] py-16 sm:py-28 border-t border-white/5">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8">
+        <div className="relative bg-[#111111] border border-[#C9A84C]/15 rounded-2xl sm:rounded-3xl px-6 sm:px-12 lg:px-16 py-12 sm:py-16 overflow-hidden">
           {/* Background glows */}
           <div className="absolute left-1/2 -translate-x-1/2 top-0 w-[700px] h-[200px] bg-[#C9A84C]/4 blur-[100px] pointer-events-none" />
           <div className="absolute right-20 top-1/2 -translate-y-1/2 w-[200px] h-[200px] bg-[#C9A84C]/3 blur-[60px] pointer-events-none" />
@@ -751,7 +751,7 @@ function Newsletter() {
             ) : (
               <form
                 onSubmit={(e) => { e.preventDefault(); if (email) setSubmitted(true); }}
-                className="flex gap-3 max-w-md mx-auto"
+                className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
               >
                 <input
                   type="email"
@@ -807,10 +807,10 @@ function Footer() {
       initial={{ opacity: 0, y: 28 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="bg-[#080808] border-t border-white/6 pt-20 pb-10"
+      className="bg-[#080808] border-t border-white/6 pt-16 sm:pt-20 pb-10"
     >
-      <div className="max-w-[1440px] mx-auto px-8">
-        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-12 mb-16">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-8 sm:gap-12 mb-12 sm:mb-16">
           {/* Brand */}
           <div>
             <div className="font-display text-xl tracking-[0.12em] text-[#F0EBE0] flex items-center gap-2.5 mb-5">
@@ -859,11 +859,11 @@ function Footer() {
 
         <GoldDivider />
 
-        <div className="flex items-center justify-between mt-8">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
           <div className="text-xs text-[#444] font-mono-label">
             © 2024 ScentBase, Inc. All rights reserved.
           </div>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 sm:gap-6 flex-wrap justify-center">
             {["Privacy Policy", "Terms of Service", "Cookie Settings"].map((link) => (
               <MotionAnchor
                 key={link}
@@ -921,11 +921,11 @@ function ExplorePage() {
     setParams(value ? { q: value } : {});
   };
 
-  return <main className="min-h-screen bg-[#080808] pt-32 pb-24">
-    <div className="max-w-[1440px] mx-auto px-8">
+  return <main className="min-h-screen bg-[#080808] pt-28 sm:pt-32 pb-24">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-8">
       <p className="text-xs text-[#C9A84C] tracking-[0.3em] uppercase mb-3">Discovery catalogue</p>
-      <h1 className="font-display text-5xl text-[#F0EBE0] mb-8">Explore Fragrances</h1>
-      <div className="flex max-w-2xl gap-3 mb-12">
+      <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl text-[#F0EBE0] mb-6 sm:mb-8">Explore Fragrances</h1>
+      <div className="flex flex-col sm:flex-row max-w-2xl gap-3 mb-8 sm:mb-12">
         <input value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => e.key === "Enter" && runSearch()} placeholder="Search perfumes or brands" className="flex-1 bg-[#141414] border border-white/10 focus:border-[#C9A84C]/40 rounded-full px-6 py-4 text-[#F0EBE0] outline-none" />
         <button onClick={runSearch} className="explore-search-button bg-[#C9A84C] text-[#080808] font-semibold px-7 rounded-full transition-all cursor-pointer">Search</button>
       </div>
