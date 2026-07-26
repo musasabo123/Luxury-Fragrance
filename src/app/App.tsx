@@ -861,7 +861,7 @@ function Footer() {
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
           <div className="text-xs text-[#444] font-mono-label">
-            © 2024 ScentBase, Inc. All rights reserved.
+              &copy; {new Date().getFullYear()} ScentBase, Inc. All rights reserved.
           </div>
           <div className="flex items-center gap-4 sm:gap-6 flex-wrap justify-center">
             {["Privacy Policy", "Terms of Service", "Cookie Settings"].map((link) => (
