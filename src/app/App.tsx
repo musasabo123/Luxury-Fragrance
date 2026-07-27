@@ -180,7 +180,7 @@ function Navbar() {
             onClick={() => toggleTheme()}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.96 }}
-            className="navbar-interactive p-2 rounded-full hover:bg-[var(--color-secondary)] hover:text-[#C9A84C] text-[var(--color-foreground)] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] cursor-pointer"
+            className=" flex navbar-interactive p-2 rounded-full hover:bg-[var(--color-secondary)] hover:text-[#C9A84C] text-[var(--color-foreground)] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] cursor-pointer"
           >
             {theme === 'light' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </motion.button>
@@ -409,11 +409,7 @@ function Hero() {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#444]">
-        <span className="text-[10px] tracking-[0.3em] uppercase">Scroll</span>
-        <div className="w-px h-10 bg-gradient-to-b from-[#444] to-transparent" />
-      </div>
+     
     </motion.section>
   );
 }
@@ -927,7 +923,7 @@ function ExplorePage() {
       <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl text-[#F0EBE0] mb-6 sm:mb-8">Explore Fragrances</h1>
       <div className="flex flex-col sm:flex-row max-w-2xl gap-3 mb-8 sm:mb-12">
         <input value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => e.key === "Enter" && runSearch()} placeholder="Search perfumes or brands" className="flex-1 bg-[#141414] border border-white/10 focus:border-[#C9A84C]/40 rounded-full px-6 py-4 text-[#F0EBE0] outline-none" />
-        <button onClick={runSearch} className="explore-search-button bg-[#C9A84C] text-[#080808] font-semibold px-7 rounded-full transition-all cursor-pointer">Search</button>
+        <button onClick={runSearch} className="explore-search-button bg-[#C9A84C] text-[#080808] font-semibold px-7 py-3 rounded-full transition-all cursor-pointer">Search</button>
       </div>
       <p className="text-sm text-[#777] mb-6">{results.length} fragrance{results.length === 1 ? "" : "s"} found{term && ` for “${params.get("q")}”`}{selectedNote && ` with ${selectedNote} notes`}</p>
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
