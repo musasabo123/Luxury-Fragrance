@@ -1148,7 +1148,7 @@ function Footer() {
                   <li key={link}>
                     <MotionLink
                       to={footerRoutes[link] ?? "/explore"}
-                      whileHover={{ x: 2, scale: 1.01, color: "#C9A84C" }}
+                      whileHover={{ x: 2, scale: 1.01 }}
                       transition={{ duration: 0.16 }}
                       className="footer-interactive text-sm text-[#555] hover:text-[#C9A84C] transition-colors cursor-pointer"
                     >
