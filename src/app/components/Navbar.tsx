@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { Search, Menu, X } from "lucide-react";
-import { Sun, Moon } from "lucide-react";
-import { motion } from "motion/react";
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "../ThemeContext";
 import { useAuth } from "../AuthContext";
-
-const MotionLink = motion(Link);
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -48,27 +45,23 @@ export function Navbar() {
         {/* Nav links */}
         <div className="hidden lg:flex items-center gap-1 flex-1">
           {links.map((link) => (
-            <MotionLink
+            <Link
               key={link.label}
               to={link.to}
-              whileHover={{ y: -1, scale: 1.01 }}
-              transition={{ duration: 0.18 }}
-              className={`navbar-interactive px-4 py-2 text-sm rounded-full transition-colors transition-shadow ${
+              className={`navbar-interactive navbar-static-hover px-4 py-2 text-sm rounded-full transition-colors transition-shadow ${
                 location.pathname === link.to
                   ? "text-[#C9A84C] bg-[#C9A84C]/8 shadow-[0_8px_24px_rgba(201,168,76,0.16)] cursor-pointer"
                   : "text-[var(--color-muted-foreground)] hover:text-[#C9A84C] hover:bg-[var(--color-secondary)] hover:shadow-[0_8px_24px_rgba(201,168,76,0.12)] cursor-pointer"
               }`}
             >
               {link.label}
-            </MotionLink>
+            </Link>
           ))}
         </div>
 
         {/* Search hint */}
-        <MotionLink
+        <Link
           to="/explore"
-          whileHover={{ scale: 1.02 }}
-          transition={{ duration: 0.18 }}
           className="navbar-interactive hidden lg:flex items-center gap-2 bg-[var(--color-secondary)] border border-[var(--color-border)] rounded-full px-4 py-2 text-sm text-[var(--color-muted-foreground)] hover:text-[#C9A84C] hover:border-[#C9A84C]/30 transition-colors transition-shadow hover:shadow-[0_10px_30px_rgba(201,168,76,0.08)] w-[250px] h-10 flex-shrink-0 [&>span]:whitespace-nowrap cursor-pointer"
         >
           <Search className="w-3.5 h-3.5 text-[var(--color-muted-foreground)] flex-shrink-0" />
@@ -76,7 +69,7 @@ export function Navbar() {
           <span className="ml-auto text-[10px] font-mono-label bg-white/8 rounded px-1.5 py-0.5 text-[#555]">
            ctrl k
           </span>
-        </MotionLink>
+        </Link>
 
         {/* Auth + Theme Toggle */}
         <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
@@ -87,9 +80,9 @@ export function Navbar() {
             className="lg:hidden navbar-interactive p-2 rounded-full hover:bg-[var(--color-secondary)] hover:text-[#C9A84C] text-[var(--color-foreground)] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] cursor-pointer"
           >
             {theme === "light" ? (
-              <Sun className="w-5 h-5" />
-            ) : (
               <Moon className="w-5 h-5" />
+            ) : (
+              <Sun className="w-5 h-5" />
             )}
           </button>
 
@@ -99,19 +92,17 @@ export function Navbar() {
           >
             {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
-          <motion.button
+          <button
             aria-label="Toggle theme"
             onClick={() => toggleTheme()}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.96 }}
-            className=" flex navbar-interactive p-2 rounded-full hover:bg-[var(--color-secondary)] hover:text-[#C9A84C] text-[var(--color-foreground)] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] cursor-pointer"
+            className="flex navbar-interactive p-2 rounded-full hover:bg-[var(--color-secondary)] hover:text-[#C9A84C] text-[var(--color-foreground)] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] cursor-pointer"
           >
             {theme === "light" ? (
-              <Sun className="w-5 h-5" />
-            ) : (
               <Moon className="w-5 h-5" />
+            ) : (
+              <Sun className="w-5 h-5" />
             )}
-          </motion.button>
+          </button>
 
           {isAuthenticated ? (
             <>
@@ -135,23 +126,18 @@ export function Navbar() {
             </>
           ) : (
             <>
-              <MotionLink
+              <Link
                 to="/login"
-                whileHover={{ y: -1, scale: 1.02 }}
-                transition={{ duration: 0.16 }}
                 className="navbar-interactive text-sm text-[var(--color-muted-foreground)] hover:text-[#C9A84C] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] px-3 py-2 cursor-pointer"
               >
                 Login
-              </MotionLink>
-              <MotionLink
+              </Link>
+              <Link
                 to="/signup"
-                whileHover={{ y: -1, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 260, damping: 22 }}
                 className="text-sm font-medium text-[#080808] bg-[#C9A84C] hover:bg-[#D4B05A] transition-all transition-shadow hover:shadow-[0_12px_36px_rgba(201,168,76,0.14)] px-6 py-2.5 rounded-full glow-strong cursor-pointer"
               >
                 Sign Up
-              </MotionLink>
+              </Link>
             </>
           )}
         </div>

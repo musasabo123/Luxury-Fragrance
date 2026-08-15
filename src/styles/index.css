@@ -8,16 +8,33 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-	:where(a[href], button, [role="button"], .cursor-pointer):not(.no-glow) {
+	/* .navbar-interactive elements manage their own local hover feedback
+	   (see themes.css / Navbar.tsx) and must not receive this global lift. */
+	:where(a[href], button, [role="button"], .cursor-pointer):not(.no-glow):not(.navbar-interactive) {
 		transition: box-shadow .22s cubic-bezier(.2,.9,.2,1), transform .22s cubic-bezier(.2,.9,.2,1);
 		will-change: transform, box-shadow;
 	}
 
-	:where(a[href], button, [role="button"], .cursor-pointer):hover:not(.no-glow),
-	:where(a[href], button, [role="button"], .cursor-pointer):focus-visible:not(.no-glow) {
+	:where(a[href], button, [role="button"], .cursor-pointer):hover:not(.no-glow):not(.navbar-interactive),
+	:where(a[href], button, [role="button"], .cursor-pointer):focus-visible:not(.no-glow):not(.navbar-interactive) {
 		box-shadow: 0 12px 40px rgba(var(--lux-gold), 0.14), 0 2px 8px rgba(0,0,0,0.45);
 		transform: translateY(-4px) scale(1.02);
 	}
+
+	/* Main navbar links should keep pill hover styling but never lift/translate. */
+	.navbar-interactive.navbar-static-hover:hover,
+	.navbar-interactive.navbar-static-hover:focus-visible {
+		box-shadow: 0 8px 24px rgba(201,168,76,0.12) !important;
+		transform: none !important;
+	}
+}
+
+/* Always show subtle hover background for navbar action links, even when hover media queries do not match. */
+.navbar-interactive.navbar-static-hover:hover,
+.navbar-interactive.navbar-static-hover:focus-visible {
+	background-color: rgba(201,168,76,0.18);
+	box-shadow: 0 8px 24px rgba(201,168,76,0.16) !important;
+	transform: none !important;
 }
 
 /* Slightly softer for small text controls */
@@ -25,7 +42,7 @@
 	--lux-shadow-small: 0 8px 28px rgba(var(--lux-gold), 0.10);
 }
 
-:where(a[href].text-sm, button.text-sm):hover {
+:where(a[href].text-sm, button.text-sm):hover:not(.no-glow):not(.navbar-interactive) {
 	box-shadow: var(--lux-shadow-small);
 	transform: translateY(-2px) scale(1.01);
 }
@@ -39,7 +56,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-	.glow-strong:hover, .glow-strong:focus-visible {
+	.glow-strong:hover:not(.navbar-interactive), .glow-strong:focus-visible:not(.navbar-interactive) {
 		box-shadow: 0 22px 80px rgba(var(--lux-gold), 0.22), 0 6px 18px rgba(0,0,0,0.48);
 		transform: translateY(-6px) scale(1.035);
 	}

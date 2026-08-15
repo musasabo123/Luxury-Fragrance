@@ -31,15 +31,12 @@ export function NotesSection() {
               <motion.button
                 key={note.name}
                 onClick={() => setActive(note.name)}
-                whileHover={{ translateY: -2 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ duration: 0.2 }}
-                className={`relative flex flex-col items-center gap-2.5 p-5 rounded-2xl border transition-all duration-200 ${
+                whileHover={{ y: -2 }}
+                className={`relative flex flex-col items-center gap-2.5 p-5 rounded-2xl border transition-colors ${
                   isActive
-                    ? "bg-[#C9A84C]/10 border-[#C9A84C]/35 shadow-[0_0_30px_rgba(201,168,76,0.1)]"
-                    : "bg-[#111111] border-white/6 hover:border-white/15 hover:bg-[#161616]"
-                }`}
-              >
+                    ? "bg-[#C9A84C]/10 border-[#C9A84C]/35"
+                    : "bg-[#111111] border-white/6 hover:bg-[#C9A84C]/15"
+                }`}>
                 <span className="text-[28px] leading-none">{note.emoji}</span>
                 <span
                   className={`text-sm font-medium ${isActive ? "text-[#C9A84C]" : "text-[#F0EBE0]/75"}`}
