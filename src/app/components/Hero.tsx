@@ -124,13 +124,14 @@ export function Hero() {
           {/* Outer ring glow */}
           <div className="absolute inset-0 bg-[#C9A84C]/6 rounded-3xl blur-3xl" />
 
-          <div className="relative w-full aspect-[9/10] rounded-3xl overflow-hidden border border-[#C9A84C]/12 shadow-[0_40px_120px_rgba(0,0,0,0.8)]">
+          <div className="relative w-full aspect-[9/10] rounded-3xl overflow-hidden border border-[#C9A84C]/20 shadow-[0_50px_140px_rgba(0,0,0,0.85)]">
             <img
               src="https://images.unsplash.com/photo-1619994403073-2cec844b8e63?w=560&h=620&fit=crop&auto=format"
               alt="Luxury perfume bottle"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover filter contrast-110 saturate-105 brightness-95"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/70 via-[#080808]/10 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/85 via-[#080808]/15 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#C9A84C]/0 via-[#C9A84C]/8 to-[#C9A84C]/0 mix-blend-overlay pointer-events-none" />
           </div>
 
           {/* Floating: Rating */}

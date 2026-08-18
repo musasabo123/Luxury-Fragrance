@@ -36,7 +36,7 @@ export function Navbar() {
         {/* Logo */}
         <Link
           to="/"
-          className="navbar-interactive font-display text-lg sm:text-xl tracking-[0.12em] text-[var(--color-foreground)] hover:text-[#C9A84C] flex items-center gap-2.5 flex-shrink-0 transition-colors cursor-pointer"
+          className="no-logo-hover font-display text-lg sm:text-xl tracking-[0.12em] text-[var(--color-foreground)] flex items-center gap-2.5 flex-shrink-0 transition-colors cursor-pointer"
         >
           <span className="text-[#C9A84C] text-base">✦</span>
           ScentBase
@@ -51,7 +51,7 @@ export function Navbar() {
               className={`navbar-interactive navbar-static-hover px-4 py-2 text-sm rounded-full transition-colors transition-shadow ${
                 location.pathname === link.to
                   ? "text-[#C9A84C] bg-[#C9A84C]/8 shadow-[0_8px_24px_rgba(201,168,76,0.16)] cursor-pointer"
-                  : "text-[var(--color-muted-foreground)] hover:text-[#C9A84C] hover:bg-[var(--color-secondary)] hover:shadow-[0_8px_24px_rgba(201,168,76,0.12)] cursor-pointer"
+                  : "text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] hover:bg-[#C9A84C]/8 hover:shadow-[0_8px_24px_rgba(201,168,76,0.12)] cursor-pointer"
               }`}
             >
               {link.label}
@@ -62,7 +62,7 @@ export function Navbar() {
         {/* Search hint */}
         <Link
           to="/explore"
-          className="navbar-interactive hidden lg:flex items-center gap-2 bg-[var(--color-secondary)] border border-[var(--color-border)] rounded-full px-4 py-2 text-sm text-[var(--color-muted-foreground)] hover:text-[#C9A84C] hover:border-[#C9A84C]/30 transition-colors transition-shadow hover:shadow-[0_10px_30px_rgba(201,168,76,0.08)] w-[250px] h-10 flex-shrink-0 [&>span]:whitespace-nowrap cursor-pointer"
+          className="navbar-interactive hidden lg:flex items-center gap-2 bg-[var(--color-secondary)] border border-[var(--color-border)] rounded-full px-4 py-2 text-sm text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] hover:bg-[#C9A84C]/8 hover:border-[#C9A84C]/20 transition-colors transition-shadow hover:shadow-[0_10px_30px_rgba(201,168,76,0.08)] w-[250px] h-10 flex-shrink-0 [&>span]:whitespace-nowrap cursor-pointer"
         >
           <Search className="w-3.5 h-3.5 text-[var(--color-muted-foreground)] flex-shrink-0" />
           <span>Discover fragrances...</span>
@@ -77,7 +77,7 @@ export function Navbar() {
           <button
             aria-label="Toggle theme"
             onClick={() => toggleTheme()}
-            className="lg:hidden navbar-interactive p-2 rounded-full hover:bg-[var(--color-secondary)] hover:text-[#C9A84C] text-[var(--color-foreground)] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] cursor-pointer"
+            className="lg:hidden navbar-interactive p-2 rounded-full hover:bg-[#C9A84C]/8 hover:text-[var(--color-foreground)] text-[var(--color-foreground)] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] cursor-pointer"
           >
             {theme === "light" ? (
               <Moon className="w-5 h-5" />
@@ -95,7 +95,7 @@ export function Navbar() {
           <button
             aria-label="Toggle theme"
             onClick={() => toggleTheme()}
-            className="flex navbar-interactive p-2 rounded-full hover:bg-[var(--color-secondary)] hover:text-[#C9A84C] text-[var(--color-foreground)] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] cursor-pointer"
+            className="flex navbar-interactive p-2 rounded-full hover:bg-[#C9A84C]/8 hover:text-[var(--color-foreground)] text-[var(--color-foreground)] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] cursor-pointer"
           >
             {theme === "light" ? (
               <Moon className="w-5 h-5" />
@@ -128,7 +128,7 @@ export function Navbar() {
             <>
               <Link
                 to="/login"
-                className="navbar-interactive text-sm text-[var(--color-muted-foreground)] hover:text-[#C9A84C] transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] px-3 py-2 cursor-pointer"
+                className="navbar-interactive text-sm text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] hover:bg-[#C9A84C]/8 transition-colors transition-shadow hover:shadow-[0_6px_18px_rgba(201,168,76,0.08)] px-3 py-2 cursor-pointer"
               >
                 Login
               </Link>

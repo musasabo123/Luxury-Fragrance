@@ -24,19 +24,24 @@ export function BrandsSection() {
               onClick={() =>
                 navigate(`/brands?selected=${encodeURIComponent(brand.name)}`)
               }
-              whileHover={{ translateY: -3, scale: 1.01 }}
+              whileHover={{
+                translateY: -2,
+                scale: 1.008,
+                backgroundColor: "#141414",
+                borderColor: "rgba(201, 168, 76, 0.3)",
+              }}
               whileTap={{ scale: 0.99 }}
-              transition={{ type: "spring", stiffness: 230, damping: 20 }}
-              className="group flex flex-col items-center justify-center gap-1.5 bg-[#111111] border border-white/6 hover:border-[#C9A84C]/30 rounded-2xl px-6 py-6 transition-all duration-200 hover:bg-[#141414] hover:shadow-[0_8px_32px_rgba(201,168,76,0.06)] cursor-pointer"
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="group flex flex-col items-center justify-center gap-1.5 bg-[#111111] border border-white/6 rounded-2xl px-6 py-6 transition-shadow duration-300 ease-out hover:shadow-[0_8px_32px_rgba(201,168,76,0.06)] cursor-pointer"
             >
-              <div className="font-display text-basetext-[#555] group-hover:text-[#C9A84C]/60 transition-colors tracking-wide leading-tight text-center">
+                <div className="font-display text-base text-[var(--color-muted-foreground)] group-hover:text-[#C9A84C]/60 transition-colors duration-300 ease-out tracking-wide leading-tight text-center">
                 {brand.name}
-              </div>
-              <div className="text-[10px] font-mono-label text-[#555] group-hover:text-[#C9A84C]/60 transition-colors">
+                </div>
+                <div className="text-[10px] font-mono-label text-[var(--color-muted-foreground)] group-hover:text-[#C9A84C]/60 transition-colors duration-300 ease-out">
                 Est. {brand.founded}
-              </div>
+                </div>
             </motion.button>
-          ))}
+             ))}
         </div>
 
         <div className="text-center mt-10">

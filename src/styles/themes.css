@@ -158,7 +158,14 @@
 
 .navbar-interactive:hover,
 .navbar-interactive:focus-visible {
-  color: var(--accent) !important;
+  background-color: rgba(201, 168, 76, 0.08) !important;
+  color: inherit !important;
+}
+
+.no-logo-hover:hover,
+.no-logo-hover:focus-visible {
+  color: var(--color-foreground) !important;
+  background-color: transparent !important;
 }
 
 /* Strong visual feedback for the Explore search action, without motion. */
@@ -171,13 +178,13 @@
 /* Brand cards use a warm, light-gold hover treatment in either theme. */
 .brand-card:hover,
 .brand-card:focus-visible {
-  background-color: rgba(201, 168, 76, 0.09) !important;
-  border-color: rgba(201, 168, 76, 0.5) !important;
+  background-color: rgba(201, 168, 76, 0.06) !important;
+  border-color: rgba(201, 168, 76, 0.28) !important;
 }
 
 .brand-card:hover .brand-card-title,
 .brand-card:focus-visible .brand-card-title {
-  color: #E2C36B !important;
+  color: var(--foreground) !important;
 }
 
 .brand-card:hover .brand-card-detail,
