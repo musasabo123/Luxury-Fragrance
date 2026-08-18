@@ -133,14 +133,18 @@ const server = http.createServer(async (req, res) => {
     // PERFUMES
     // ========================
     if (method === "GET" && pathname === "/api/perfumes") {
+      const filter = {};
+      if (query.gender) {
+        filter.gender = query.gender;
+      }
+
       const perfumes = await perfumesCollection
-        .find({})
+        .find(filter)
         .sort({ name: 1 })
-        .limit(20)
         .toArray();
+
       return json(200, perfumes);
     }
-
     // ========================
     // SIGNUP
     // ========================
